@@ -424,10 +424,13 @@ void ParallelSort::Execute(cauldron::CommandList* pCmdList, NumKeys numKeysToSor
 
     // Sort - SetupIndirectArgs Pass
     // Those can only be set once per frame
-    m_pSetupIndirectArgsParameters->SetBufferSRV(numKeysToSort.pNumKeysBuffer, 0);
-    m_pSetupIndirectArgsParameters->SetBufferUAV(m_pIndirectConstantBuffer, 0);
-    m_pSetupIndirectArgsParameters->SetBufferUAV(m_pIndirectCountScatterArgsBuffer, 1);
-    m_pSetupIndirectArgsParameters->SetBufferUAV(m_pIndirectReduceScanArgsBuffer, 2);
+    if (m_bIndirect)
+    {
+        m_pSetupIndirectArgsParameters->SetBufferSRV(numKeysToSort.pNumKeysBuffer, 0);
+        m_pSetupIndirectArgsParameters->SetBufferUAV(m_pIndirectConstantBuffer, 0);
+        m_pSetupIndirectArgsParameters->SetBufferUAV(m_pIndirectCountScatterArgsBuffer, 1);
+        m_pSetupIndirectArgsParameters->SetBufferUAV(m_pIndirectReduceScanArgsBuffer, 2);
+    }
 
     // Execute the sort algorithm in 4-bit increments
     constants.shift = 0;
